@@ -73,3 +73,27 @@ FROM    EMPLOYEE;
 --Query 9: Make a list of all project numbers 
 --for projects that involves an employee whose lastname is 'Smith' 
 --as a worker or as a manager of the department that controls the project
+
+( SELECT DISTINCT Pnumber
+FROM PROJECT, DEPARTMENT, EMPLOYEE
+WHERE Dnum = Dnumber AND Mgr_ssn = Ssn
+    AND Lname = 'Smith' )
+UNION
+( SELECT DISTINCT Pnumber 
+FROM PROJECT, WORKS_ON, EMPLOYEE
+WHERE Pnumber = Pno AND Essn = Ssn
+        AND Lname = 'Smith' );
+
+
+(SELECT  P.Pnumber
+FROM    PROJECT AS P 
+JOIN    DEPARTMENT AS D ON P.Dnum = D.Dnumber
+JOIN    EMPLOYEE AS E ON E.Ssn = D.Mgr_ssn
+WHERE   E.Lname = 'Smith')
+UNION
+(SELECT  P.Pnumber
+FROM    PROJECT AS P 
+JOIN    WORKS_ON AS W ON P.Pnumber = W.Pno
+JOIN    EMPLOYEE AS E ON E.Ssn = W.Essn
+WHERE   E.Lname = 'Smith');
+
