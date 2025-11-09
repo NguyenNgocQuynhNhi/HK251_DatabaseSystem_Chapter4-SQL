@@ -118,3 +118,135 @@ JOIN    WORKS_ON AS W ON P.Pnumber = W.Pno
 JOIN    EMPLOYEE AS E ON E.Ssn = W.Essn
 WHERE   P.Pname = 'ProductX';
 
+SELECT  Fname, Lname, 1.1 * Salary AS INC_SAL 
+FROM    EMPLOYEE, WORKS_ON, PROJECT
+WHERE   Ssn = Essn AND Pno = Pnumber AND Pname = 'ProductX';
+
+--Query 13: Retrieve the name and address of all employees who work for the 'Research' department
+SELECT  E.Lname, E.Fname, E.Address, E.Dno, D.Dname
+FROM    EMPLOYEE AS E
+        JOIN    DEPARTMENT AS D ON E.Dno = D.Dnumber
+WHERE   D.Dname = 'Research';
+
+SELECT  E.Lname, E.Fname, E.Address, E.Dno
+FROM    EMPLOYEE AS E  
+WHERE   E.Dno IN (
+                SELECT  D.Dnumber
+                FROM    DEPARTMENT AS D  
+                WHERE   D.Dname = 'Research');
+
+--Query 14: Retrieve the name of each employee 
+--who has a dependent with the same firstname as the employee
+
+SELECT  E.Fname AS E_FirstName, Depend.Dependent_name AS DependentName
+FROM    DEPENDENT AS Depend 
+        JOIN EMPLOYEE AS E ON Depend.Essn = E.Ssn
+WHERE   E.Fname = Depend.Dependent_name;
+
+SELECT  E.Fname, E.Lname
+FROM    EMPLOYEE E  
+WHERE   E.Ssn IN (SELECT Essn 
+                        FROM    DEPENDENT
+                        WHERE   Essn = E.Ssn AND E.Fname = Dependent_name);
+
+--Query 15: Retrieve the SSNs of all employees 
+--who work the same (project, hours) combination on some project
+--that employee John Smith (SSN = 123456789) works on (using a nested query) 
+
+-- SELECT  W.Essn
+-- FROM    WORKS_ON AS W
+-- WHERE   W.Pno IN (SELECT  W.Pno, W.HoursWork
+--                                 FROM    WORKS_ON AS W
+--                                 WHERE   W.Essn = '123456789')
+--         AND W.HoursWork IN (SELECT  W.Pno, W.HoursWork
+--                                 FROM    WORKS_ON AS W
+--                                 WHERE   W.Essn = '123456789'); 
+
+SELECT  W1.Essn, W1.Pno, W1.HoursWork
+FROM    WORKS_ON AS W1
+WHERE   EXISTS  (SELECT * 
+                FROM    WORKS_ON AS W2
+                WHERE   W2.Essn = '123456789'
+                AND     W1.Pno = W2.Pno
+                AND     W1.HoursWork = W2.HoursWork)
+        AND W1.Essn <> '123456789';
+
+-- SELECT  Pno, HoursWork
+-- FROM    WORKS_ON
+-- WHERE   Essn = '123456789';
+
+--Query 16: Retrieve all employees whose salary is greater than the salary of all employees in department 5
+SELECT *
+FROM    EMPLOYEE 
+WHERE   Salary > ALL ( SELECT Salary
+                                FROM  EMPLOYEE
+                                WHERE Dno = 5);
+
+--Query 17: Retrieve the names of employees who have no dependents
+SELECT  E.Fname, E.Lname
+FROM    EMPLOYEE AS E  
+WHERE   NOT EXISTS (SELECT      *    
+                        FROM    DEPENDENT AS D  
+                        WHERE   D.Essn = E.Ssn);
+
+--Query 18: Retrieve the SSNs of all employees who work on project numbers 1, 2, or 3
+SELECT  Essn
+FROM    WORKS_ON
+WHERE   Pno IN (1, 2, 3);
+
+SELECT  Essn
+FROM    WORKS_ON
+WHERE   Pno = 1 OR Pno = 2 OR Pno = 3;
+
+--Query 19: Find the max, min, average salary among all employees
+SELECT  MAX(Salary) AS MaxSalary, MIN(Salary) AS MinSalary, AVG(Salary) AS AvrSalary
+FROM    EMPLOYEE;
+
+--Query 20: Retrieve the total number of employees in the company
+SELECT  COUNT(*) AS TheNumberOfEmployees
+FROM    EMPLOYEE;
+
+--Query 21: Retrieve the number of employees in the 'Research' Department
+SELECT  COUNT(*) AS TheNumberOfEmployees
+FROM    EMPLOYEE AS E  
+        JOIN DEPARTMENT AS D ON E.Dno = D.Dnumber
+WHERE   D.Dname = 'Research';
+
+SELECT
+    D.Dnumber,         -- (Bạn muốn hiển thị cột này)
+    D.Dname,           -- (Bạn muốn hiển thị cột này)
+    COUNT(*) AS TheNumberOfEmployees
+FROM
+    EMPLOYEE AS E
+    JOIN DEPARTMENT AS D ON E.Dno = D.Dnumber
+WHERE
+    D.Dname = 'Research'
+GROUP BY
+    D.Dnumber,         -- (Vì vậy bạn phải GROUP BY nó)
+    D.Dname;           -- (Và GROUP BY cả nó)
+
+-- Lấy số lượng nhân viên của TẤT CẢ các phòng ban
+SELECT
+    D.Dnumber,
+    D.Dname,
+    COUNT(*) AS TheNumberOfEmployees
+FROM
+    EMPLOYEE AS E
+    JOIN DEPARTMENT AS D ON E.Dno = D.Dnumber
+GROUP BY
+    D.Dnumber,
+    D.Dname;
+
+--Query 22: For each department, retrieve the department number, 
+--the number of employees in the department, 
+--and their average salary.
+SELECT  D.Dnumber, COUNT(*) AS TheNumberOfEmployees, AVG(Salary) AS TheAvrSalary
+FROM    EMPLOYEE AS E  
+        JOIN    DEPARTMENT AS D ON E.Dno = D.Dnumber
+GROUP BY        Dnumber;
+
+SELECT  Dno, COUNT(*) AS TheNumberOfEmployees, AVG(Salary) AS TheAvrSalary
+FROM    EMPLOYEE 
+GROUP BY        Dno;
+
+
