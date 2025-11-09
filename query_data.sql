@@ -249,4 +249,25 @@ SELECT  Dno, COUNT(*) AS TheNumberOfEmployees, AVG(Salary) AS TheAvrSalary
 FROM    EMPLOYEE 
 GROUP BY        Dno;
 
+--Query 23: For each project on which more than two employees work, 
+--retrieve the project number, project name, and the number of employees
+--who work on that project.
+SELECT  P.Pnumber, P.Pname, COUNT(*) AS TheNumberOfEmployees
+FROM    WORKS_ON AS W 
+        JOIN    PROJECT AS P ON W.Pno = P.Pnumber
+GROUP BY        P.Pnumber, P.Pname  
+HAVING  COUNT(*) > 2;
+
+--Query 24: Retrieve a list of employees and the projects each works in, 
+-- ordered by the employee's department, 
+-- and within each department ordered alphabetically by employee last name
+SELECT  E.Ssn, E.Fname, E.Lname, D.Dnumber, D.Dname
+FROM    EMPLOYEE AS E  
+        JOIN DEPARTMENT AS D ON E.Dno = D.Dnumber
+        JOIN WORKS_ON AS W ON E.Ssn = W.Essn 
+        JOIN PROJECT AS P ON P.Pnumber = W.Pno
+-- GROUP BY        D.Dnumber, D.Dname;
+ORDER BY        D.Dnumber, E.Lname;
+
+
 
