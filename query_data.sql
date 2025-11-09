@@ -97,3 +97,24 @@ JOIN    WORKS_ON AS W ON P.Pnumber = W.Pno
 JOIN    EMPLOYEE AS E ON E.Ssn = W.Essn
 WHERE   E.Lname = 'Smith');
 
+--Query 10: Retrieve all employees whose address is in Houston, Texas.
+SELECT  *
+FROM    EMPLOYEE AS E  
+WHERE   E.Address LIKE '%Houston, TX%';
+
+--Query 11: Retrieve all employees whose SSN has '89' at the end.
+SELECT *
+FROM    EMPLOYEE
+WHERE   Ssn LIKE '_______89';   -- 7 charaters _
+
+SELECT  *
+FROM    EMPLOYEE AS E  
+WHERE   E.Ssn LIKE '%89';
+
+--Query 12: show the resulting salaries if every employee working on "ProductX" is given 10% raise
+SELECT  Fname, Lname, Salary, 1.1 * Salary AS NewSalary
+FROM    PROJECT AS P
+JOIN    WORKS_ON AS W ON P.Pnumber = W.Pno  
+JOIN    EMPLOYEE AS E ON E.Ssn = W.Essn
+WHERE   P.Pname = 'ProductX';
+
