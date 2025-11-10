@@ -39,3 +39,54 @@ BEGIN
 END;
 
 EXEC GetTopReaders;
+
+-- Cách 1: Dùng CTE (Common Table Expressions) - Dễ đọc nhất
+-- Bước 1: Tạo "Bảng điểm"
+WITH Scoreboard AS (
+    SELECT 
+        Branch_id, 
+        Card_no, 
+        COUNT(DISTINCT Book_id) AS CountBooks
+    FROM BOOK_LOANS
+    GROUP BY Branch_id, Card_no
+),
+
+-- Bước 2: Tìm "Điểm cao nhất" cho mỗi chi nhánh
+MaxScores AS (
+    SELECT 
+        Branch_id, 
+        MAX(CountBooks) AS MaxCount
+    FROM Scoreboard
+    GROUP BY Branch_id
+)
+
+-- Bước 3: Ghép 2 bảng đó lại để tìm người thắng cuộc
+SELECT 
+    S.Branch_id, 
+    S.Card_no, 
+    S.CountBooks
+FROM Scoreboard AS S
+JOIN MaxScores AS M 
+    ON S.Branch_id = M.Branch_id 
+   AND S.CountBooks = M.MaxCount;
+
+-- Cách 2: Dùng Hàm cửa sổ (Window Functions) - Hiệu quả nhất
+WITH RankedScores AS (
+    SELECT 
+        Branch_id, 
+        Card_no, 
+        COUNT(DISTINCT Book_id) AS CountBooks,
+        -- Xếp hạng độc giả TRONG TỪNG CHI NHÁNH (PARTITION BY)
+        DENSE_RANK() OVER(PARTITION BY Branch_id 
+                          ORDER BY COUNT(DISTINCT Book_id) DESC) AS Rank
+    FROM BOOK_LOANS
+    GROUP BY Branch_id, Card_no
+)
+
+-- Bây giờ chỉ cần chọn tất cả những ai có Rank = 1
+SELECT 
+    Branch_id, 
+    Card_no, 
+    CountBooks
+FROM RankedScores
+WHERE Rank = 1;
