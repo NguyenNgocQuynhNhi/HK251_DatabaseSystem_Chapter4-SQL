@@ -38,6 +38,9 @@ FROM    PROJECT JOIN WORKS_ON ON Pnumber = Pno
 GROUP BY    Pname
 
 -- f. Với mỗi phòng ban, liệt kê tên phòng ban và tên của tất cả các employee làm việc cho phòng ban đó.
+SELECT  Dname, EMPLOYEE.Fname, EMPLOYEE.Minit, EMPLOYEE.Lname
+FROM    EMPLOYEE JOIN DEPARTMENT ON Dno = Dnumber
+ORDER BY    Dno, Dname;
 
 -- g. Liệt kê tên của tất cả employee không làm bất cứ project nào ở “Houston”. 
 -- h. Liệt kê tên của tất cả employee làm việc cho tất cả các project ở “Houston”. 
