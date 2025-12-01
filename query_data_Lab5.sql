@@ -55,7 +55,18 @@ SELECT  Fname, Minit, Lname
 FROM    EMPLOYEE
 WHERE   EMPLOYEE.Ssn NOT IN (SELECT Ssn FROM Project_Houston);
 
--- h. Liệt kê tên của tất cả employee làm việc cho tất cả các project ở “Houston”. 
+    -- h. Liệt kê tên của tất cả employee làm việc cho tất cả các project ở “Houston”. 
+
+    SELECT  Fname, Minit, Lname
+    FROM    EMPLOYEE AS E JOIN WORKS_ON AS W ON E.Ssn = W.Essn
+                        JOIN    PROJECT AS P ON P.Pnumber = W.Pno
+    WHERE   Plocation = 'Houston'
+    GROUP BY    E.Ssn, E.Fname, E.Minit, E.Lname
+    HAVING  COUNT(*) = (SELECT  COUNT(*)    
+                        FROM    PROJECT     
+                        WHERE   Plocation = 'Houston');
+
+
 -- i. Tìm các employee có tổng số dự án tham gia nhiều nhất trong công ty. 
 -- j. Liệt kê tên các employee có lương cao nhất trong mỗi phòng ban. 
 -- k. Với mỗi phòng ban, tìm các employee có tổng số dự án tham gia nhiều nhất trong phòng ban đó. 
