@@ -33,6 +33,9 @@ WHERE   EMPLOYEE.Super_ssn = Mgr_Research.Mgr_ssn;
 
 -- e. Với mỗi project, liệt kê tên project, và tổng số giờ một tuần mà tất cả nhân viên phải làm cho 
 -- project đó. 
+SELECT  Pname, SUM(HoursWork) AS TotalHours
+FROM    PROJECT JOIN WORKS_ON ON Pnumber = Pno
+GROUP BY    Pname
 
 -- f. Với mỗi phòng ban, liệt kê tên phòng ban và tên của tất cả các employee làm việc cho phòng ban đó.
 
