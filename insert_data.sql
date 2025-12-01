@@ -13,8 +13,8 @@ SELECT * FROM EMPLOYEE;
 
 INSERT INTO DEPARTMENT (Dname, Dnumber, Mgr_ssn, Mgr_start_date)
 VALUES
--- (N'Research', 5, '333445555', '1968-05-22'), 
--- (N'Administration', 4, '987654321', '1995-01-01'),
+(N'Research', 5, '333445555', '1968-05-22'), 
+(N'Administration', 4, '987654321', '1995-01-01'),
 (N'Headquarters', 1, '888665555', '1981-06-19');
 
 SELECT * FROM DEPARTMENT;
