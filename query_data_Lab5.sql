@@ -112,6 +112,12 @@ FROM CountProjects AS C JOIN MaxProjectsInDept AS M
     ON C.Dno = M.Dno AND C.TheNumberOfProjects = M.MaxProjects
     JOIN EMPLOYEE AS E ON C.Ssn = E.Ssn;
 
-
-
 -- l. Liệt kê last name của tất cả các manager của các department nhưng không tham gia project nào. 
+SELECT  E.Lname
+FROM    DEPARTMENT AS D JOIN EMPLOYEE AS E ON D.Mgr_ssn = E.Ssn
+WHERE   E.Ssn NOT IN (SELECT Essn FROM WORKS_ON);
+
+-- SELECT  Lname
+-- FROM    EMPLOYEE AS E JOIN DEPARTMENT AS D ON E.Dno = D.Dnumber
+--         JOIN WORKS_ON AS W ON E.Ssn = W.Essn
+-- WHERE   E.Ssn = D.Mgr_ssn AND E.Ssn <> W.Essn;
