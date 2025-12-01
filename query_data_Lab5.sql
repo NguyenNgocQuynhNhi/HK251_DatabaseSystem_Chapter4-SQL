@@ -95,4 +95,23 @@ FROM    EMPLOYEE AS E JOIN MaxSalaryInDepartment AS M ON E.Dno = M.Dno
 WHERE   E.Salary = M.MaxSalary;
 
 -- k. Với mỗi phòng ban, tìm các employee có tổng số dự án tham gia nhiều nhất trong phòng ban đó. 
+WITH    CountProjects AS (
+    SELECT  E.Dno, E.Ssn, COUNT(*) AS TheNumberOfProjects
+    FROM    WORKS_ON AS W JOIN EMPLOYEE AS E ON W.Essn = E.Ssn 
+    GROUP BY    E.Dno, E.Ssn
+),
+
+MaxProjectsInDept AS (
+    SELECT  Dno, MAX(TheNumberOfProjects) AS MaxProjects
+    FROM    CountProjects
+    GROUP BY    Dno
+)
+
+SELECT E.Fname, E.Minit, E.Lname, C.Dno, C.TheNumberOfProjects
+FROM CountProjects AS C JOIN MaxProjectsInDept AS M 
+    ON C.Dno = M.Dno AND C.TheNumberOfProjects = M.MaxProjects
+    JOIN EMPLOYEE AS E ON C.Ssn = E.Ssn;
+
+
+
 -- l. Liệt kê last name của tất cả các manager của các department nhưng không tham gia project nào. 
