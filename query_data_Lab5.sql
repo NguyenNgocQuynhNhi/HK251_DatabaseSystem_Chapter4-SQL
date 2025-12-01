@@ -66,8 +66,24 @@ WHERE   EMPLOYEE.Ssn NOT IN (SELECT Ssn FROM Project_Houston);
                         FROM    PROJECT     
                         WHERE   Plocation = 'Houston');
 
-
 -- i. Tìm các employee có tổng số dự án tham gia nhiều nhất trong công ty. 
+WITH    CountProjects AS (
+    SELECT      Essn, COUNT(*) AS TheNumberOfProjects
+    FROM        WORKS_ON
+    GROUP BY    Essn
+)
+
+SELECT  Fname, Minit, Lname
+FROM    EMPLOYEE AS E JOIN CountProjects ON E.Ssn = CountProjects.Essn
+WHERE   TheNumberOfProjects = (SELECT  MAX(TheNumberOfProjects)
+                    FROM    CountProjects);
+
+
+-- SELECT  E.Fname, E.Minit, E.Lname
+-- FROM    EMPLOYEE AS E JOIN WORKS_ON AS W ON E.Ssn = W.Essn
+-- GROUP BY    E.Ssn, E.Fname, E.Minit, E.Lname
+-- HAVING  MAX(COUNT(Pno));
+
 -- j. Liệt kê tên các employee có lương cao nhất trong mỗi phòng ban. 
 -- k. Với mỗi phòng ban, tìm các employee có tổng số dự án tham gia nhiều nhất trong phòng ban đó. 
 -- l. Liệt kê last name của tất cả các manager của các department nhưng không tham gia project nào. 
