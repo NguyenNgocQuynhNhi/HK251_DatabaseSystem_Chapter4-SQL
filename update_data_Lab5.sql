@@ -10,4 +10,23 @@ SET     Relationship = 'Friend'
 WHERE   Dependent_name = 'Joy' AND Essn IN (SELECT Ssn FROM EMPLOYEE WHERE Fname = 'Franklin');
 
 -- c. Tất cả nhân viên của phòng ban có ít nhất một vị trí ở “Houston” được tăng lương gấp đôi. 
+UPDATE  EMPLOYEE
+SET     Salary = Salary * 2
+WHERE   Dno IN (SELECT Dnumber 
+                FROM    DEPT_LOCATIONS
+                WHERE   Dlocation = 'Houston');
+
 -- d. Trừ 5% lương cho các nhân viên có tổng số dự án tham gia ít hơn 2.
+UPDATE  EMPLOYEE
+SET     Salary = Salary - 0.05 * Salary
+WHERE   Ssn IN (SELECT Essn
+                FROM    WORKS_ON
+                GROUP BY    Essn
+                HAVING  COUNT(*) < 2)
+        OR Ssn NOT IN (SELECT Essn FROM WORKS_ON);
+-- ------------------CACH 2 -------------------------
+UPDATE EMPLOYEE
+SET Salary = Salary - 0.05 * Salary
+WHERE (SELECT COUNT(*) 
+       FROM WORKS_ON 
+       WHERE Essn = EMPLOYEE.Ssn) < 2;
