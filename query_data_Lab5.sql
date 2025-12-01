@@ -43,6 +43,18 @@ FROM    EMPLOYEE JOIN DEPARTMENT ON Dno = Dnumber
 ORDER BY    Dno, Dname;
 
 -- g. Liệt kê tên của tất cả employee không làm bất cứ project nào ở “Houston”. 
+
+WITH    Project_Houston AS ( 
+    SELECT  Ssn, Fname, Minit, Lname
+    FROM    EMPLOYEE AS E JOIN WORKS_ON AS W ON E.Ssn = W.Essn
+                        JOIN PROJECT AS P ON P.Pnumber = W.Pno
+    WHERE   Plocation = 'Houston'
+)
+
+SELECT  Fname, Minit, Lname
+FROM    EMPLOYEE
+WHERE   EMPLOYEE.Ssn NOT IN (SELECT Ssn FROM Project_Houston);
+
 -- h. Liệt kê tên của tất cả employee làm việc cho tất cả các project ở “Houston”. 
 -- i. Tìm các employee có tổng số dự án tham gia nhiều nhất trong công ty. 
 -- j. Liệt kê tên các employee có lương cao nhất trong mỗi phòng ban. 
