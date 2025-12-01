@@ -1,0 +1,3 @@
+-- Viết câu lệnh để xoá các dữ liệu sau: 
+-- a. Xóa những thân nhân của nhân viên có tên là “Alice". 
+-- b. Xóa dự án “Product Z”. 
