@@ -35,6 +35,9 @@ WHERE   YEAR(HIREDATE) = 1983;
 
 -- h. Hiển thị tên nhân viên, ngày gia nhập công ty, ngày xét nâng lương (sau ngày gia nhập công ty 1 
 --năm), sắp xếp theo thứ tự ngày xét nâng lương. 
+SELECT  ENAME, HIREDATE, DATEADD(YEAR, +1, HIREDATE) AS UpSalDate
+FROM    EMP
+ORDER BY  UpSalDate;  
 
 -- i. Tìm lương thấp nhất, lớn nhất và lương trung bình trong tất cả nhân viên. 
 
