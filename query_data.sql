@@ -14,8 +14,14 @@ FROM    EMP
 WHERE   DEPTNO = 10 OR DEPTNO = 20;
 
 -- d. Hiển thị tên nhân viên, nghề nghiệp của nhân viên có nghề là ‘CLERK’, thuộc phòng ban có mã số là 20 
+SELECT  ENAME, JOB  
+FROM    EMP
+WHERE   JOB = 'CLERK' AND DEPTNO = 20;
 
 -- e. Hiển thị mã nhân viên, tên nhân viên của nhân viên có tên có chứa chuỗi ‘TH’ hay ‘LL’. 
+SELECT  EMPNO, ENAME 
+FROM    EMP
+WHERE   ENAME LIKE '%TH%' OR ENAME LIKE '%LL%';
 
 -- f. Hiển thị tên nhân viên, nghề nghiệp, lương của những nhân viên có giám đốc quản lý. 
 
