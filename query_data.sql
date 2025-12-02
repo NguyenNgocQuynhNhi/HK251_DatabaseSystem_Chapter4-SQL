@@ -44,6 +44,9 @@ SELECT  MIN(SAL) AS MinSal, MAX(SAL) AS MaxSal, AVG(SAL) AS AvgSal
 FROM    EMP;
 
 -- j.  Tìm lương nhỏ nhất và lớn nhất của mỗi loại nghề nghiệp. 
+SELECT  JOB, MIN(SAL) AS MinSal, MAX(SAL) AS MaxSal
+FROM    EMP
+GROUP BY    JOB;
 
 -- k. Tìm xem có bao nhiêu giám đốc trong danh sách nhân viên. 
 
