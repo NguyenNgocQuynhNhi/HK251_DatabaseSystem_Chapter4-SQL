@@ -40,6 +40,8 @@ FROM    EMP
 ORDER BY  UpSalDate;  
 
 -- i. Tìm lương thấp nhất, lớn nhất và lương trung bình trong tất cả nhân viên. 
+SELECT  MIN(SAL) AS MinSal, MAX(SAL) AS MaxSal, AVG(SAL) AS AvgSal
+FROM    EMP;
 
 -- j.  Tìm lương nhỏ nhất và lớn nhất của mỗi loại nghề nghiệp. 
 
