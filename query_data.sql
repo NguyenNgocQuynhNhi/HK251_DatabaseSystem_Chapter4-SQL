@@ -7,7 +7,11 @@ WHERE   SAL  BETWEEN 1000 AND 2000;
 SELECT  DEPTNO, DNAME
 FROM            DEPT
 ORDER BY        DNAME
+
 -- c. Hiển thị mã nhân viên, tên nhân viên của phòng ban có mã là 10 hoặc 20. 
+SELECT  EMPNO, ENAME
+FROM    EMP
+WHERE   DEPTNO = 10 OR DEPTNO = 20;
 
 -- d. Hiển thị tên nhân viên, nghề nghiệp của nhân viên có nghề là ‘CLERK’, thuộc phòng ban có mã số là 20 
 
