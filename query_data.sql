@@ -67,6 +67,14 @@ WHERE   MGR IS NOT NULL
 ORDER BY    SAL;
 
 -- n. Hiển thị tên nhân viên, vị trí địa lý, tên phòng với điều kiện lương >1500. 
+SELECT  ENAME, LOC, DNAME
+FROM    EMP JOIN DEPT ON EMP.DEPTNO = DEPT.DEPTNO
+WHERE   SAL > 1500;
+
+SELECT E.ENAME, D.LOC, D.DNAME
+FROM EMP AS E 
+JOIN DEPT AS D ON E.DEPTNO = D.DEPTNO
+WHERE E.SAL > 1500;
 
 -- o. Hiển thị tên nhân viên , nghề nghiệp, lương, mức lương, tên phòng làm việc trừ nhân viên có nghề là 
 --cleck và sắp xếp theo chiều giảm của lương. 
