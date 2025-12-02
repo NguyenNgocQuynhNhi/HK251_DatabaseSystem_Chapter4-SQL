@@ -49,6 +49,9 @@ FROM    EMP
 GROUP BY    JOB;
 
 -- k. Tìm xem có bao nhiêu giám đốc trong danh sách nhân viên. 
+SELECT  COUNT(*) AS NumOfManagers
+FROM    EMP
+WHERE   JOB = 'MANAGER';
 
 -- l. Tìm tất cả các phòng ban mà số nhân viên trong phòng >3. 
 
