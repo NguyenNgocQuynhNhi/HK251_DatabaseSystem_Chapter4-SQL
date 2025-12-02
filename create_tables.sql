@@ -1,36 +1,35 @@
--- 1. Tạo bảng Phòng ban (DEPT) trước vì bảng EMP sẽ tham chiếu đến nó
+-- -- Xóa bảng cũ nếu tồn tại (để chạy lại không lỗi)
+-- IF OBJECT_ID('EMP', 'U') IS NOT NULL DROP TABLE EMP;
+-- IF OBJECT_ID('SALGRADE', 'U') IS NOT NULL DROP TABLE SALGRADE;
+-- IF OBJECT_ID('DEPT', 'U') IS NOT NULL DROP TABLE DEPT;
+
+-- 1. Tạo bảng Phòng ban (DEPT)
 CREATE TABLE DEPT (
-    DEPTNO INT NOT NULL,        -- Đổi NUMBER(2) -> INT
-    DNAME  NVARCHAR(50),        -- Đổi CHAR -> NVARCHAR để hỗ trợ tiếng Việt nếu cần
-    LOC    NVARCHAR(50),        -- Đổi CHAR -> NVARCHAR
+    DEPTNO INT NOT NULL,          -- Mã phòng ban
+    DNAME  NVARCHAR(50),          -- Tên phòng ban
+    LOC    NVARCHAR(50),          -- Địa điểm
     CONSTRAINT PK_DEPT PRIMARY KEY (DEPTNO)
 );
 
 -- 2. Tạo bảng Mức lương (SALGRADE)
 CREATE TABLE SALGRADE (
-    GRADE INT NOT NULL,         -- Đổi NUMBER -> INT
-    LOSAL INT,                  -- Lương thấp nhất
-    HISAL INT,                  -- Lương cao nhất
+    GRADE INT NOT NULL,           -- Mức lương
+    LOSAL INT,                    -- Lương thấp nhất
+    HISAL INT,                    -- Lương cao nhất
     CONSTRAINT PK_SALGRADE PRIMARY KEY (GRADE)
 );
 
 -- 3. Tạo bảng Nhân viên (EMP)
 CREATE TABLE EMP (
-    EMPNO    INT NOT NULL,          -- Đổi NUMBER(4) -> INT
-    ENAME    NVARCHAR(50),          -- Tên nhân viên
-    JOB      NVARCHAR(50),          -- Nghề nghiệp
-    MGR      INT,                   -- Mã người quản lý (tham chiếu chính bảng này)
-    HIREDATE DATE,                  -- Ngày vào làm
-    SAL      DECIMAL(10, 2),        -- Đổi NUMBER(7,2) -> DECIMAL (Lương có số lẻ)
-    DEPTNO   INT NOT NULL,          -- Mã phòng ban
+    EMPNO    INT NOT NULL,        -- Mã nhân viên
+    ENAME    NVARCHAR(50),        -- Tên nhân viên
+    JOB      NVARCHAR(50),        -- Nghề nghiệp
+    MGR      INT,                 -- Mã người quản lý
+    HIREDATE DATE,                -- Ngày vào làm
+    SAL      DECIMAL(10, 2),      -- Lương
+    DEPTNO   INT NOT NULL,        -- Mã phòng ban
     
-    -- Tạo khóa chính
     CONSTRAINT PK_EMP PRIMARY KEY (EMPNO),
-    
-    -- Tạo khóa ngoại liên kết với bảng DEPT
     CONSTRAINT FK_EMP_DEPT FOREIGN KEY (DEPTNO) REFERENCES DEPT(DEPTNO),
-    
-    -- Tạo khóa ngoại tự tham chiếu (Người quản lý cũng là nhân viên)
     CONSTRAINT FK_EMP_MGR FOREIGN KEY (MGR) REFERENCES EMP(EMPNO)
 );
-
