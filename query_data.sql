@@ -24,8 +24,14 @@ FROM    EMP
 WHERE   ENAME LIKE '%TH%' OR ENAME LIKE '%LL%';
 
 -- f. Hiển thị tên nhân viên, nghề nghiệp, lương của những nhân viên có giám đốc quản lý. 
+SELECT ENAME, JOB, SAL
+FROM EMP
+WHERE MGR IS NOT NULL;
 
 -- g. Hiển thị tên nhân viên, mã phòng ban, ngày gia nhập công ty sao cho gia nhập công ty trong năm 1983. 
+SELECT  ENAME, DEPTNO, HIREDATE 
+FROM    EMP 
+WHERE   YEAR(HIREDATE) = 1983;
 
 -- h. Hiển thị tên nhân viên, ngày gia nhập công ty, ngày xét nâng lương (sau ngày gia nhập công ty 1 
 --năm), sắp xếp theo thứ tự ngày xét nâng lương. 
