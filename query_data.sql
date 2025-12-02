@@ -85,5 +85,13 @@ WHERE   JOB <> 'CLERK'
 ORDER BY    SAL DESC;
 
 -- p. Hiển thị nghề nghiệp được tuyển dụng vào năm 1981 và không được tuyển dụng vào năm 1994. 
+SELECT  JOB
+FROM    EMP
+WHERE   YEAR(HIREDATE) = 1981
+EXCEPT
+SELECT  JOB
+FROM    EMP
+WHERE   YEAR(HIREDATE) = 1994;
+
 
 -- q. Tìm những nhân viên gia nhập công ty trước giám đốc của họ.
