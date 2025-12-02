@@ -54,9 +54,17 @@ FROM    EMP
 WHERE   JOB = 'MANAGER';
 
 -- l. Tìm tất cả các phòng ban mà số nhân viên trong phòng >3. 
+SELECT  DEPTNO
+FROM    EMP
+GROUP BY    DEPTNO
+HAVING  COUNT(*) > 3;
 
 -- m. Tìm ra mức lương của mỗi nhân viên làm việc cho một giám đốc nào đó sắp xếp theo thứ tự tăng 
 --dần của mức lương. 
+SELECT  EMPNO, ENAME, MGR, SAL
+FROM    EMP
+WHERE   MGR IS NOT NULL
+ORDER BY    SAL;
 
 -- n. Hiển thị tên nhân viên, vị trí địa lý, tên phòng với điều kiện lương >1500. 
 
