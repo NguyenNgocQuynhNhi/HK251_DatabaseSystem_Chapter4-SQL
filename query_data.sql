@@ -77,7 +77,12 @@ JOIN DEPT AS D ON E.DEPTNO = D.DEPTNO
 WHERE E.SAL > 1500;
 
 -- o. Hiển thị tên nhân viên , nghề nghiệp, lương, mức lương, tên phòng làm việc trừ nhân viên có nghề là 
---cleck và sắp xếp theo chiều giảm của lương. 
+--clerk và sắp xếp theo chiều giảm của lương. 
+SELECT  ENAME, JOB, SAL, GRADE, DNAME
+FROM    EMP JOIN DEPT ON EMP.DEPTNO = DEPT.DEPTNO 
+        JOIN SALGRADE ON EMP.SAL BETWEEN SALGRADE.LOSAL AND SALGRADE.HISAL
+WHERE   JOB <> 'CLERK'
+ORDER BY    SAL DESC;
 
 -- p. Hiển thị nghề nghiệp được tuyển dụng vào năm 1981 và không được tuyển dụng vào năm 1994. 
 
