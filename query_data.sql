@@ -93,5 +93,7 @@ SELECT  JOB
 FROM    EMP
 WHERE   YEAR(HIREDATE) = 1994;
 
-
 -- q. Tìm những nhân viên gia nhập công ty trước giám đốc của họ.
+SELECT  E.ENAME
+FROM    EMP AS E JOIN EMP AS M ON E.MGR = M.EMPNO
+WHERE   E.HIREDATE < M.HIREDATE; 
